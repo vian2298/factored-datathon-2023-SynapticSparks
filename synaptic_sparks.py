@@ -20,34 +20,6 @@ dbutils.fs.mount(
 metadata_folder_path = "/mnt/source_files/amazon_metadata/"
 reviews_folder_path = "/mnt/source_files/amazon_reviews/"
 
-def read_files_recursively(folder_path):
-    # List all files and subdirectories in the folder
-    items = dbutils.fs.ls(folder_path)
-    
-    for item in items:
-        if item.isDir():  # If it's a subdirectory, recursively read files from it
-            read_files_recursively(item.path)
-        else:  # If it's a file, read its content
-            file_path = item.path
-            file_content = dbutils.fs.head(file_path)
-            print(f"Content of the file: {file_path}")
-            print(file_content)
-
-# Read files from 'amazon_metadata' folder and its subfolders
-print("Reading files from 'amazon_metadata' folder:")
-read_files_recursively(metadata_folder_path)
-
-# Read files from 'amazon_reviews' folder and its subfolders
-print("Reading files from 'amazon_reviews' folder:")
-read_files_recursively(reviews_folder_path)
-
-
-# COMMAND ----------
-
-# Define the folder paths for both 'amazon_metadata' and 'amazon_reviews'
-metadata_folder_path = "/mnt/source_files/amazon_metadata/"
-reviews_folder_path = "/mnt/source_files/amazon_reviews/"
-
 def read_json_gz_files_recursively_spark(folder_path):
     # List all files and subdirectories in the folder
     items = dbutils.fs.ls(folder_path)
@@ -94,7 +66,7 @@ reviews_df.describe().show()
 
 # COMMAND ----------
 
-metadata_df.dtypes
+metadata_df.select('category').distinct().first()
 
 # COMMAND ----------
 
